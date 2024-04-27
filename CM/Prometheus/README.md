@@ -6,7 +6,7 @@
 <br/>
 
 ### Prometheus의 특징
-- PromQL이라는 Filxible Query Language를 포함함 (READ only Language)
+- [PromQL](https://prometheus.io/docs/prometheus/latest/querying/basics/)이라는 Filxible Query Language를 포함함 (READ only Language)
 - Built-in expression Browser를 사용하여 시각화가 가능함
 - Grafana와 함께 사용할 수도 있음
 - 수집된 모든 메트릭은 메모리 혹은 로컬 디스크에 효율적인 형태로 저장됨
@@ -29,11 +29,9 @@
 * 긁어온 데이터를 토대로 모니터링
 * 초당 최대 백만개의 타임 시리즈 데이터를 긁어올 수 있음
 
-
 **Prometheus PushGateway**
 * 배치 혹은 단기로 이뤄짐으로써 짧게 존재하는 데이터를, 프로메테우스 서버가 긁어갈 수 있도록 데이터가 좀 더 오랫동안 존재할 수 있게 해줌
 * 해당 데이터들을 프로메테우스 서버에 노출시켜 서버가 긁어가게 함
-
 
 **Exporters and Intergrations**
 * 서드파티 시스템을 통해 데이터를 프로메테우스 메트릭으로 수집할 수 있게 해줌
@@ -46,6 +44,7 @@
 **Service Discovery**
 * end-point를 찾아서 메트릭 데이터를 긁어가게 해줌
 * prometheus.yaml 파일을 구성하여, 데이터를 긁어올 엔드포인트를 알려주고, 수행할 잡을 커스터마이징
+* 이 때, 긁어올 엔드포인트의 대상이 리눅스 혹은 윈도우 서버라면, 해당 인스턴스에 node exporter 혹은 WMI exporter 등이 필요함
 
 **PromQL**
 * Prometheus Querying Language
