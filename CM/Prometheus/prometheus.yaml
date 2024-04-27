@@ -1,0 +1,35 @@
+# Resource: https://github.com/manifoldailearning/Complete-MLOps-BootCamp/blob/main/Continuous-Monitoring-Prometheus-Grafana/prometheus.yaml
+# 본 yaml 파일을 수정한다면, 서버를 재시작하거나 파일의 재로드가 필요!
+
+global:
+  scrape_interval: 15s # 엔드포인트에서 데이터를 긁는 간격(시간)
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager 관련 설정
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: "prometheus"
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    static_configs:
+      - targets: ["localhost:9090"] # 스스로의 데이터를 긁어날 수 있도록 타겟에 설정
+  
+  - job_name: "app" # 작업 단위 및 할당된 이름 - Job name은 unique 해야함!
+      static_configs:
+      - targets: ["localhost:8005"]
