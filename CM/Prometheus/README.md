@@ -74,3 +74,22 @@
 * total count of observations
 * ex: request durations, reponse size
 
+### 프로메테우스 실습
+실습 참고 링크: [Complete-MLOps-Bootcamp](https://github.com/manifoldailearning/Complete-MLOps-BootCamp/tree/main/Continuous-Monitoring-Prometheus-Grafana)
+1. AWS EC2 인스턴스 생성
+2. 인스턴스의 모든 포트를 노출 (IPv4, IPv6) 
+3. 터미널에서 SSH를 사용하여 EC2에 연결
+4. 스크립트 작업
+   1. 관리자 계정으로 로그인 ``sudo su -``
+   2. 깃 설치확인 ``git --version``
+   3. 깃 레퍼지토리 클론 받기 ``git clone <주소>``
+   4. 스크립트 실행하기 ``chmod u=rwx,g=r,o=r 1-install.sh``
+   5. 프로메테우스 실행하기 ``sudo service prometheus start``
+   6. 프로메테우스 실행상태 확인하기 ``sudo service prometheus status``
+5. 작업을 명시해주는 prometheus.yaml 파일 내용 확인하기
+   1. scrape_interval: 데이터를 긁는 시간 주기
+   2. evaluation_interval: 데이터 평가 시간 주기
+   3. alerting: alertmanager 관리
+   4. scrape_configs: 데이터를 긁어낼 타겟을 구성 (최소한 자기 자신은 항상 바로 모니터링하도록 함! 9090 포트를 사용)
+   5. localhost:9090/metrics으로 가면 어떤 지표를 모니터링하고 있는지 확인할 수 있음
+   6. job_name 등을 설텅해서 라벨을 달아줄 수 있음 (9090 대시보드에서 편하게 볼 수 있음)
