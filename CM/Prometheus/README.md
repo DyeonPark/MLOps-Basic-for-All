@@ -92,3 +92,30 @@
    4. scrape_configs: 데이터를 긁어낼 타겟을 구성 (최소한 자기 자신은 항상 바로 모니터링하도록 함! 9090 포트를 사용)
    5. localhost:9090/metrics으로 가면 어떤 지표를 모니터링하고 있는지 확인할 수 있음
    6. job_name 등을 설텅해서 라벨을 달아줄 수 있음 (9090 대시보드에서 편하게 볼 수 있음)
+
+
+### Tracking Target 추가 방법
+- **Linux Server** with **Node Exporter**
+   1. Linux Server에 Node Exporter 설치 
+   2. Node Exporter로 인해 서버의 데이터들을 지정된 포트로 노출시킬 수 있게 됨
+   3. 프로메테우스에서 이를 엔드포인트로 긁어올 수 있도록 prometheus.yaml 파일을 수정
+   ```shell
+   sudo apt-get install vim -y
+   sudo update-alternatives --config vi
+
+   vim /etc/prometheus/prometheus.yml
+   - job_name: 'node_exporter'
+      scrape_interval: 5s
+      static_configs:
+         - targets: ['localhost:9100']
+   ```
+   4. 프로메테우스 서비스를 재시작 ``sudo service prometheus restart``
+- **FastAPI** with **prometheus-fastapi-instrumentator**
+   1. FastAPI를 올릴 서버에 [prometheus-fastapi-instrumentator](https://github.com/trallnag/prometheus-fastapi-instrumentator) 라이브러리 설치
+   2. FastAPI 앱을 정의하는 파이썬 파일에 해당 라이브러리 호출
+      ``from prometheus_fastapi_instrumentator import Instrumentator``
+   3. 인스턴스에 app 인스턴스 전달
+   ``Instrumentator().instrument(app).expose(app)``
+   4. 자동으로 metrics 페이지가 생겨 해당 엔드포인트로 메트릭 노출
+   5. 해당 주소를 prometheus.yaml에 추가하면 메트릭 긁어오기 가능 
+
